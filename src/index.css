@@ -28,13 +28,6 @@ code {
   }
 }
 
-.coinWaiting {
-  animation: hover 2s ease-in-out infinite;
-  animation-timing-function: linear;
-  aspect-ratio: 1 / 1;
-  width: 100%;
-}
-
 .btnSecondaryActive {
   background: #9bbbff;
   background: radial-gradient(ellipse at center, #0955ff, #568cff);
@@ -56,3 +49,35 @@ code {
   color: transparent;
 }
 
+.no-scrollbar {
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none; 
+}
+
+.coinWaiting {
+  transform-style: preserve-3d; 
+  animation: hover 2s ease-in-out infinite;
+  animation-timing-function: linear;
+  aspect-ratio: 1 / 1;
+  width: 100%;
+}
+
+.flipAnimation {
+  animation: flip 2s infinite; /* The animation will flip every 2 seconds */
+}
+
+@keyframes flip {
+  0% {
+    transform: rotateY(0deg);
+  }
+  50% {
+    transform: rotateY(180deg);
+  }
+  100% {
+    transform: rotateY(360deg);
+  }
+}
