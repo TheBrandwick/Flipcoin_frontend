@@ -5,7 +5,7 @@ import { Coin } from "./components/Coin";
 import { BetAmount } from "./components/BetAmount";
 
 function App() {
-  const [isDarkMode, setIsDarkMode] = useState(true);
+  // const [isDarkMode, setIsDarkMode] = useState(true);
   // const [flips] = useState(6);
   const [isTelegramWebAppReady, setIsTelegramWebAppReady] = useState(false);
   const [selectedHeads, setSelectedHeads] = useState(true);
@@ -108,7 +108,7 @@ function App() {
           style={{ borderRadius: "9999px" }}
           className="w-full lg:max-w-md h-12 flex gap-3 mb-4 bg-transparent border border-[#568CFF] hover:font-600 rounded-[9999px]"
         >
-          Connect Wallet <img src="/coingray.svg" />
+          Connect Wallet <img src="/coingray.svg" alt="coingray" />
         </Button>
       </div>
 
@@ -195,7 +195,7 @@ function App() {
       </div>
 
       {/* Footer Links */}
-      <div className="flex flex-col items-center gap-2 text-blue-500">
+      {/* <div className="flex flex-col items-center gap-2 text-blue-500">
         <a href="#" className="hover:underline">
           Referral System
         </a>
@@ -205,7 +205,19 @@ function App() {
         <a href="#" className="hover:underline">
           Terms & Conditions
         </a>
+      </div> */}
+      <div className="flex flex-col items-center gap-2 text-blue-500">
+        <a href="/referral-system" className="hover:underline">
+          Referral System
+        </a>
+        <a href="/faq" className="hover:underline">
+          FAQ
+        </a>
+        <a href="/terms-and-conditions" className="hover:underline">
+          Terms & Conditions
+        </a>
       </div>
+
     </div>
   );
 }
