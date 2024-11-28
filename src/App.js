@@ -3,13 +3,18 @@ import { Button } from "./components/Button";
 import { GradientCard } from "./components/GradientCard";
 import { Coin } from "./components/Coin";
 import { BetAmount } from "./components/BetAmount";
+import CoinGreyIcon from "./components/Icons/CoinGreyIcon";
+import HeadsLost from "./components/Icons/HeadsLost.jsx";
+import Tails from "./components/Icons/Tails.jsx";
+import TailsLost from "./components/Icons/TailsLost.jsx";
+import Heads from "./components/Icons/HeadsIcon.jsx";
 
 function App() {
   // const [isDarkMode, setIsDarkMode] = useState(true);
   // const [flips] = useState(6);
   const [isTelegramWebAppReady, setIsTelegramWebAppReady] = useState(false);
   const [selectedHeads, setSelectedHeads] = useState(true);
-  const [flipCoin, setFlipCoin] = useState(false)
+  const [flipCoin, setFlipCoin] = useState(false);
   const [lastFlips, setLastFlips] = useState([
     { chose: "heads", result: "win" },
     { chose: "tails", result: "lose" },
@@ -18,17 +23,17 @@ function App() {
     { chose: "heads", result: "win" },
   ]);
   const [flipResult, setFlipResult] = useState({});
-  const [showResult, setShowResult] = useState(false)
+  const [showResult, setShowResult] = useState(false);
 
-  const [selectedAmount, setSelectedAmount] = useState('0.001');
+  const [selectedAmount, setSelectedAmount] = useState("0.001");
 
   const betAmounts = [
-    { amount: '0.001', percentage: '3.2' },
-    { amount: '0.002', percentage: '6.89' },
-    { amount: '0.003', percentage: '9.88' },
-    { amount: '0.005', percentage: '16.47' },
-    { amount: '0.0075', percentage: '24.78' },
-    { amount: '0.01', percentage: '32.96' },
+    { amount: "0.001", percentage: "3.2" },
+    { amount: "0.002", percentage: "6.89" },
+    { amount: "0.003", percentage: "9.88" },
+    { amount: "0.005", percentage: "16.47" },
+    { amount: "0.0075", percentage: "24.78" },
+    { amount: "0.01", percentage: "32.96" },
   ];
 
   const handleAmountClick = (amount) => {
@@ -77,10 +82,9 @@ function App() {
   };
 
   const handleResetFlip = () => {
-    setShowResult(false)
-    setFlipResult({})
-  }
-
+    setShowResult(false);
+    setFlipResult({});
+  };
 
   return (
     <div className="min-h-screen bg-black text-[#fffaee] p-4 flex flex-col items-center">
@@ -93,13 +97,25 @@ function App() {
           <div className="flex overflow-x-scroll gap-2 no-scrollbar">
             {lastFlips.map((flip, i) => (
               <div key={i} className="rounded-full flex-shrink-0">
-                {flip.chose === 'heads' ? <img
-                  src={flip.result === "win" ? "/Heads.svg" : "/HeadsLost.svg"}
-                  alt={`Flip ${i}`}
-                /> : <img
-                  src={flip.result === "win" ? "/Tails.svg" : "/TailsLost.svg"}
-                  alt={`Flip ${i}`}
-                />}
+                {flip.chose === "heads" ? (
+                  //   <img
+                  //   src={flip.result === "win" ? "/Heads.svg" : "/HeadsLost.svg"}
+                  //   alt={`Flip ${i}`}
+                  // />
+                  flip?.result === "win" ? (
+                    <Heads />
+                  ) : (
+                    <HeadsLost />
+                  )
+                ) : // <img
+                //     src={flip.result === "win" ? "/Tails.svg" : "/TailsLost.svg"}
+                //     alt={`Flip ${i}`}
+                //   />
+                flip?.result === "win" ? (
+                  <Tails />
+                ) : (
+                  <TailsLost />
+                )}
               </div>
             ))}
           </div>
@@ -108,7 +124,8 @@ function App() {
           style={{ borderRadius: "9999px" }}
           className="w-full lg:w-fit whitespace-nowrap px-10 lg:max-w-md h-12 flex gap-3 mb-4 bg-transparent border border-[#568CFF] hover:font-semibold rounded-[9999px]"
         >
-          Connect Wallet <img src="/coingray.svg" alt="coingray" />
+          Connect Wallet <CoinGreyIcon />
+          {/* <img src="/coingray.svg" alt="coingray" /> */}
         </Button>
       </div>
 
@@ -146,50 +163,64 @@ function App() {
       </div>
 
       {/* Betting Options */}
-      {!showResult ? <>
-        <div className="text-center mb-4">I bet:</div>
-        <div className="flex gap-4 mb-8">
-          <Button
-            onClick={() => setSelectedHeads(true)}
-            className={`h-14 w-32 border border-[#2b2f32] ${selectedHeads ? "btnSecondaryActive" : "bg-[#1e1f21]"
+      {!showResult ? (
+        <>
+          <div className="text-center mb-4">I bet:</div>
+          <div className="flex gap-4 mb-8">
+            <Button
+              onClick={() => setSelectedHeads(true)}
+              className={`h-14 w-32 border border-[#2b2f32] ${
+                selectedHeads ? "btnSecondaryActive" : "bg-[#1e1f21]"
               }`}
-          >
-            Heads
-          </Button>
-          <Button
-            onClick={() => setSelectedHeads(false)}
-            className={`h-14 w-32 border border-[#2b2f32] ${!selectedHeads ? "btnSecondaryActive" : "bg-[#1e1f21]"
+            >
+              Heads
+            </Button>
+            <Button
+              onClick={() => setSelectedHeads(false)}
+              className={`h-14 w-32 border border-[#2b2f32] ${
+                !selectedHeads ? "btnSecondaryActive" : "bg-[#1e1f21]"
               }`}
-          >
-            Tails
-          </Button>
-        </div>
+            >
+              Tails
+            </Button>
+          </div>
 
-        {/* Bet Amounts */}
-        <div className="grid grid-cols-3 gap-2 w-full max-w-md mb-8">
-          {betAmounts.map((bet) => (
-            <BetAmount
-              key={bet.amount}
-              amount={bet.amount}
-              percentage={bet.percentage}
-              isSelected={bet.amount === selectedAmount}
-              onClick={handleAmountClick}
-              className={bet.amount === selectedAmount ? 'btnSecondaryActive' : ''}
-            />
-          ))}
-        </div>
-      </> : <>
-        <Button onClick={handleResetFlip} className="bg-transparent border border-[#2b2f32] w-full my-3 btnSecondaryActive h-14 max-w-md">
-          Try Again
-        </Button>
-      </>}
+          {/* Bet Amounts */}
+          <div className="grid grid-cols-3 gap-2 w-full max-w-md mb-8">
+            {betAmounts.map((bet) => (
+              <BetAmount
+                key={bet.amount}
+                amount={bet.amount}
+                percentage={bet.percentage}
+                isSelected={bet.amount === selectedAmount}
+                onClick={handleAmountClick}
+                className={
+                  bet.amount === selectedAmount ? "btnSecondaryActive" : ""
+                }
+              />
+            ))}
+          </div>
+        </>
+      ) : (
+        <>
+          <Button
+            onClick={handleResetFlip}
+            className="bg-transparent border border-[#2b2f32] w-full my-3 btnSecondaryActive h-14 max-w-md"
+          >
+            Try Again
+          </Button>
+        </>
+      )}
 
       {/* Bottom Buttons */}
       <div className="flex gap-4 w-full max-w-md mb-8">
         <Button className="flex-1 bg-transparent border border-[#2b2f32] btnSecondaryActive h-14">
           Connect Wallet
         </Button>
-        <Button onClick={handleCoinFlip} className="flex-1 bg-transparent border border-[#2b2f32] btnSecondaryActive h-14">
+        <Button
+          onClick={handleCoinFlip}
+          className="flex-1 bg-transparent border border-[#2b2f32] btnSecondaryActive h-14"
+        >
           Flip in Fun Mode
         </Button>
       </div>
@@ -217,7 +248,6 @@ function App() {
           Terms & Conditions
         </a>
       </div>
-
     </div>
   );
 }
