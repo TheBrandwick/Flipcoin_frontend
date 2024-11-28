@@ -106,7 +106,7 @@ function App() {
         </div>
         <Button
           style={{ borderRadius: "9999px" }}
-          className="w-full lg:max-w-md h-12 flex gap-3 mb-4 bg-transparent border border-[#568CFF] hover:font-600 rounded-[9999px]"
+          className="w-full lg:w-fit whitespace-nowrap px-10 lg:max-w-md h-12 flex gap-3 mb-4 bg-transparent border border-[#568CFF] hover:font-semibold rounded-[9999px]"
         >
           Connect Wallet <img src="/coingray.svg"/>
         </Button>

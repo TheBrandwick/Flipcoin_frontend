@@ -10,17 +10,19 @@
 // }
 
 import React from 'react';
+import CoinIcon from './Icons/Coin';
 
 export function Coin({ flipCoin, flipResult }) {
   return (
     <div className="relative w-48 h-48 my-8">
       {/* Display coin image when no result has been chosen */}
       {!flipResult?.chose ? (
-        <img
-          src="/Coin.svg"
-          className={`coinWaiting ${flipCoin ? "flipAnimation" : ""}`}
-          alt="coin"
-        />
+        // <img
+        //   src="/Coin.svg"
+        //   className={`coinWaiting ${flipCoin ? "flipAnimation" : ""}`}
+        //   alt="coin"
+        // />
+        <CoinIcon flipCoin={flipCoin} />
       ) : (
         // Show result based on the flipResult
         flipResult.chose === "heads" ? (
