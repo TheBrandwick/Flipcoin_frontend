@@ -5,11 +5,11 @@ import { Coin } from "./components/Coin";
 import { BetAmount } from "./components/BetAmount";
 
 function App() {
-  const [isDarkMode, setIsDarkMode] = useState(true);
-  const [flips] = useState(6);
+  // const [isDarkMode, setIsDarkMode] = useState(true);
+  // const [flips] = useState(6);
   const [isTelegramWebAppReady, setIsTelegramWebAppReady] = useState(false);
   const [selectedHeads, setSelectedHeads] = useState(true);
-  const [flipCoin,setFlipCoin] = useState(false)
+  const [flipCoin, setFlipCoin] = useState(false)
   const [lastFlips, setLastFlips] = useState([
     { chose: "heads", result: "win" },
     { chose: "tails", result: "lose" },
@@ -20,7 +20,7 @@ function App() {
   const [flipResult, setFlipResult] = useState({});
   const [showResult, setShowResult] = useState(false)
 
-  const [selectedAmount, setSelectedAmount] = useState('0.001'); 
+  const [selectedAmount, setSelectedAmount] = useState('0.001');
 
   const betAmounts = [
     { amount: '0.001', percentage: '3.2' },
@@ -32,7 +32,7 @@ function App() {
   ];
 
   const handleAmountClick = (amount) => {
-    setSelectedAmount(amount); 
+    setSelectedAmount(amount);
   };
 
   useEffect(() => {
@@ -47,10 +47,10 @@ function App() {
     }
   }, []);
 
-  const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode);
-    document.documentElement.classList.toggle("dark");
-  };
+  // const toggleTheme = () => {
+  //   setIsDarkMode(!isDarkMode);
+  //   document.documentElement.classList.toggle("dark");
+  // };
 
   if (!isTelegramWebAppReady) {
     return (
@@ -61,22 +61,22 @@ function App() {
   }
 
   const handleCoinFlip = () => {
-    setFlipCoin(true); 
+    setFlipCoin(true);
     setShowResult(true);
-    const randomResult = Math.random() > 0.5 ? "win" : "lose"; 
+    const randomResult = Math.random() > 0.5 ? "win" : "lose";
     const chosenSide = selectedHeads ? "heads" : "tails";
 
     setTimeout(() => {
       setFlipCoin(false);
-      setFlipResult({chose: chosenSide, result: randomResult});
+      setFlipResult({ chose: chosenSide, result: randomResult });
       setLastFlips((prevFlips) => [
         { chose: chosenSide, result: randomResult },
-        ...prevFlips, 
+        ...prevFlips,
       ]);
     }, 5000);
   };
 
-  const handleResetFlip= ()=>{
+  const handleResetFlip = () => {
     setShowResult(false)
     setFlipResult({})
   }
@@ -96,10 +96,10 @@ function App() {
                 {flip.chose === 'heads' ? <img
                   src={flip.result === "win" ? "/Heads.svg" : "/HeadsLost.svg"}
                   alt={`Flip ${i}`}
-                />:<img
-                src={flip.result === "win" ? "/Tails.svg" : "/TailsLost.svg"}
-                alt={`Flip ${i}`}
-              />}
+                /> : <img
+                  src={flip.result === "win" ? "/Tails.svg" : "/TailsLost.svg"}
+                  alt={`Flip ${i}`}
+                />}
               </div>
             ))}
           </div>
@@ -108,7 +108,7 @@ function App() {
           style={{ borderRadius: "9999px" }}
           className="w-full lg:w-fit whitespace-nowrap px-10 lg:max-w-md h-12 flex gap-3 mb-4 bg-transparent border border-[#568CFF] hover:font-semibold rounded-[9999px]"
         >
-          Connect Wallet <img src="/coingray.svg"/>
+          Connect Wallet <img src="/coingray.svg" alt="coingray" />
         </Button>
       </div>
 
@@ -147,40 +147,38 @@ function App() {
 
       {/* Betting Options */}
       {!showResult ? <>
-      <div className="text-center mb-4">I bet:</div>
-      <div className="flex gap-4 mb-8">
-        <Button
-          onClick={() => setSelectedHeads(true)}
-          className={`h-14 w-32 border border-[#2b2f32] ${
-            selectedHeads ? "btnSecondaryActive" : "bg-[#1e1f21]"
-          }`}
-        >
-          Heads
-        </Button>
-        <Button
-          onClick={() => setSelectedHeads(false)}
-          className={`h-14 w-32 border border-[#2b2f32] ${
-            !selectedHeads ? "btnSecondaryActive" : "bg-[#1e1f21]"
-          }`}
-        >
-          Tails
-        </Button>
-      </div>
+        <div className="text-center mb-4">I bet:</div>
+        <div className="flex gap-4 mb-8">
+          <Button
+            onClick={() => setSelectedHeads(true)}
+            className={`h-14 w-32 border border-[#2b2f32] ${selectedHeads ? "btnSecondaryActive" : "bg-[#1e1f21]"
+              }`}
+          >
+            Heads
+          </Button>
+          <Button
+            onClick={() => setSelectedHeads(false)}
+            className={`h-14 w-32 border border-[#2b2f32] ${!selectedHeads ? "btnSecondaryActive" : "bg-[#1e1f21]"
+              }`}
+          >
+            Tails
+          </Button>
+        </div>
 
-      {/* Bet Amounts */}
-      <div className="grid grid-cols-3 gap-2 w-full max-w-md mb-8">
-      {betAmounts.map((bet) => (
-        <BetAmount
-          key={bet.amount}
-          amount={bet.amount}
-          percentage={bet.percentage}
-          isSelected={bet.amount === selectedAmount}
-          onClick={handleAmountClick} 
-          className={bet.amount === selectedAmount ? 'btnSecondaryActive' : ''} 
-        />
-      ))}
-      </div>
-      </>:<>
+        {/* Bet Amounts */}
+        <div className="grid grid-cols-3 gap-2 w-full max-w-md mb-8">
+          {betAmounts.map((bet) => (
+            <BetAmount
+              key={bet.amount}
+              amount={bet.amount}
+              percentage={bet.percentage}
+              isSelected={bet.amount === selectedAmount}
+              onClick={handleAmountClick}
+              className={bet.amount === selectedAmount ? 'btnSecondaryActive' : ''}
+            />
+          ))}
+        </div>
+      </> : <>
         <Button onClick={handleResetFlip} className="bg-transparent border border-[#2b2f32] w-full my-3 btnSecondaryActive h-14 max-w-md">
           Try Again
         </Button>
@@ -197,7 +195,7 @@ function App() {
       </div>
 
       {/* Footer Links */}
-      <div className="flex flex-col items-center gap-2 text-blue-500">
+      {/* <div className="flex flex-col items-center gap-2 text-blue-500">
         <a href="#" className="hover:underline">
           Referral System
         </a>
@@ -207,7 +205,19 @@ function App() {
         <a href="#" className="hover:underline">
           Terms & Conditions
         </a>
+      </div> */}
+      <div className="flex flex-col items-center gap-2 text-blue-500">
+        <a href="/referral-system" className="hover:underline">
+          Referral System
+        </a>
+        <a href="/faq" className="hover:underline">
+          FAQ
+        </a>
+        <a href="/terms-and-conditions" className="hover:underline">
+          Terms & Conditions
+        </a>
       </div>
+
     </div>
   );
 }
