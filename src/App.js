@@ -8,6 +8,11 @@ import HeadsLost from "./components/Icons/HeadsLost.jsx";
 import Tails from "./components/Icons/Tails.jsx";
 import TailsLost from "./components/Icons/TailsLost.jsx";
 import Heads from "./components/Icons/HeadsIcon.jsx";
+import { useWallet, WalletProvider } from '@tronweb3/tronwallet-adapter-react-hooks';
+import { WalletDisconnectedError, WalletError, WalletNotFoundError } from '@tronweb3/tronwallet-abstract-adapter';
+import toast, { Toaster } from 'react-hot-toast';
+import WalletConnect from "./components/WalletConnect.js";
+import WalletConnectButton from "./WalletConnectButton.js";
 
 function App() {
   // const [isDarkMode, setIsDarkMode] = useState(true);
@@ -86,6 +91,24 @@ function App() {
     setFlipResult({});
   };
 
+  // 
+  // const tronWeb = new TronWeb({
+  //   fullHost: 'https://api.trongrid.io',
+  //   privateKey: 'd92a4a1e-46e7-4f94-9377-84a124b90187'
+  // });
+
+  // handle connect tronlink wallet
+  // const handleConnectWallet = async () => {
+  //   if (window.tronWeb) {
+  //     const tronWebState = await tronWeb.trx.getAccount();
+  //     console.log('Connected to TronLink!', tronWebState);
+  //   } else {
+  //     console.log('TronLink not installed');
+  //   }
+  // }
+
+
+
   return (
     <div className="min-h-screen bg-black text-[#fffaee] p-4 flex flex-col items-center">
       {/* Last Flips */}
@@ -108,25 +131,22 @@ function App() {
                     <HeadsLost />
                   )
                 ) : // <img
-                //     src={flip.result === "win" ? "/Tails.svg" : "/TailsLost.svg"}
-                //     alt={`Flip ${i}`}
-                //   />
-                flip?.result === "win" ? (
-                  <Tails />
-                ) : (
-                  <TailsLost />
-                )}
+                  //     src={flip.result === "win" ? "/Tails.svg" : "/TailsLost.svg"}
+                  //     alt={`Flip ${i}`}
+                  //   />
+                  flip?.result === "win" ? (
+                    <Tails />
+                  ) : (
+                    <TailsLost />
+                  )}
               </div>
             ))}
           </div>
         </div>
-        <Button
-          style={{ borderRadius: "9999px" }}
-          className="w-full lg:w-fit whitespace-nowrap px-10 lg:max-w-md h-12 flex gap-3 mb-4 bg-transparent border border-[#568CFF] hover:font-semibold rounded-[9999px]"
-        >
-          Connect Wallet <CoinGreyIcon />
-          {/* <img src="/coingray.svg" alt="coingray" /> */}
-        </Button>
+
+        {/* <TronLinkIntegration /> */}
+        {/* <WalletConnect /> */}
+        <WalletConnectButton />
       </div>
 
       {/* Theme Toggle and Flips Counter */}
@@ -169,17 +189,15 @@ function App() {
           <div className="flex gap-4 mb-8">
             <Button
               onClick={() => setSelectedHeads(true)}
-              className={`h-14 w-32 border border-[#2b2f32] ${
-                selectedHeads ? "btnSecondaryActive" : "bg-[#1e1f21]"
-              }`}
+              className={`h-14 w-32 border border-[#2b2f32] ${selectedHeads ? "btnSecondaryActive" : "bg-[#1e1f21]"
+                }`}
             >
               Heads
             </Button>
             <Button
               onClick={() => setSelectedHeads(false)}
-              className={`h-14 w-32 border border-[#2b2f32] ${
-                !selectedHeads ? "btnSecondaryActive" : "bg-[#1e1f21]"
-              }`}
+              className={`h-14 w-32 border border-[#2b2f32] ${!selectedHeads ? "btnSecondaryActive" : "bg-[#1e1f21]"
+                }`}
             >
               Tails
             </Button>
@@ -250,6 +268,23 @@ function App() {
       </div>
     </div>
   );
+}
+
+function ConnectComponent() {
+  const { connect, disconnect, select, connected } = useWallet();
+  return (<div>
+    <button type="button" onClick={() => select('TronLink Adapter')}> Select TronLink</button>
+    <button type="button" disabled={connected} onClick={connect}>Connect</button><br />
+    <button type="button" disabled={!connected} onClick={disconnect}>Disconnect</button>
+  </div>);
+}
+function Profile() {
+  const { address, connected, wallet } = useWallet();
+  return (<div>
+    <p> <span>Connection Status:</span> {connected ? 'Connected' : 'Disconnected'}</p>
+    <p> <span>Your selected Wallet:</span> {wallet?.adapter.name} </p>
+    <p> <span>Your Address:</span> {address} </p>
+  </div>);
 }
 
 export default App;
